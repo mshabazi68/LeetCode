@@ -1,22 +1,37 @@
-class Solution {
-    public int[][] floodFill(int[][] image, int sr, int sc, int newColor) {
-        int oColor = image[sr][sc];
-        if (oColor == newColor) {
-            return image;
-        }
-        int[][] dir = new int[][]{{0, 1},{0, -1},{1, 0},{-1, 0}};
-        image[sr][sc] = newColor;
-        for (int i = 0; i < dir.length; i ++) {
-            int nextX = sr + dir[i][0];
-            int nextY = sc + dir[i][1];
-            if (nextX < 0 || nextX >= image.length || nextY < 0 || nextY >= image[0].length) {
-                continue;
-            }
-            if (image[nextX][nextY] != oColor) {
-                continue;
-            }
-            floodFill(image, nextX, nextY, newColor);
-        }
-        return image;
-    }
+import java.util.Arrays;
+
+public class Floodfill733 {
+
+	public int[][] floodFill(int[][] image, int sr, int sc, int newColor) {
+		if (image[sr][sc] == newColor) {
+			return image;
+		}
+		fill(image, sr, sc, image[sr][sc], newColor);
+		return image;
+	}
+
+	public void fill(int[][] image, int sr, int sc, int color, int newColor) {
+		if (sr < 0 || sc < 0 || sr >= image.length || sc >= image[0].length || image[sr][sc] != color) {
+			return;
+		}
+
+		image[sr][sc] = newColor;
+		fill(image, sr - 1, sc, color, newColor);
+		fill(image, sr + 1, sc, color, newColor);
+		fill(image, sr, sc - 1, color, newColor);
+		fill(image, sr, sc + 1, color, newColor);
+	}
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		Floodfill733 obj = new Floodfill733 ();
+		int [][] image = {{1,1,1},{1,1,0},{1,0,1}}; 
+		System.out.println(Arrays.deepToString(image));
+		int sr = 1;
+		int sc = 1;
+		int newColor = 2;
+		System.out.println(Arrays.deepToString(
+		obj.floodFill(image, sr, sc, newColor)));
+	}
+
 }
